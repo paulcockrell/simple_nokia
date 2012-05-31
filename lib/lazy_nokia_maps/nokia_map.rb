@@ -37,4 +37,5 @@ private
       @options.merge!  name => opts
     end
 
+  end
 end
