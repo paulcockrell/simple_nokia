@@ -12,7 +12,7 @@ module LazyNokiaMaps
       self.tap do |nokia_map|
         nokia_map.options    ||= {}
         nokia_map.defaults_options
-        nokia_map.html_options = html_opts.reverse_merge(CANVAS_DEFAULT_HTML_OPTIONS)
+        nokia_map.html_options = html_opts.merge(CANVAS_DEFAULT_HTML_OPTIONS)
         nokia_map.canvas       = canvas if canvas
         yield high_chart if block_given?
       end
