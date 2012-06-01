@@ -2,7 +2,7 @@ require 'open-uri'
 require 'zlib'
 require 'json'
 
-module Nokia
+module SimpleNokia
   class Places
     include Rack::Utils
     PBAPI_BASE_URL = "http://demo.places.nlp.nokia.com/places/v1"
@@ -33,4 +33,3 @@ module Nokia
 
   end #class
 end #module
-
