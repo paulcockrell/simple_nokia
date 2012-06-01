@@ -1,14 +1,14 @@
-require 'nokia_maps'
-require 'nokia_maps/layout_helper.rb'
+require 'simple_nokia'
+require 'simple_nokia/layout_helper.rb'
 
 require 'rails'
 
-module NokiaMaps
+module SimpleNokia
 
     class Railtie < ::Rails::Railtie
-      initializer 'nokia_maps.initialize' do
+      initializer 'simple_nokia.initialize' do
         ActiveSupport.on_load(:action_view) do
-          include NokiaMaps::LayoutHelper
+          include SimpleNokia::LayoutHelper
         end
       end
     end
