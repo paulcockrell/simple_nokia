@@ -1,25 +1,22 @@
 module LazyNokiaMaps
   class NokiaMap
-    CANVAS_DEFAULT_HTML_OPTIONS = { :style => "height: 300px, width:300px" }
+    CANVAS_DEFAULT_HTML_OPTIONS = { :container => 'map', :style => "height: 300px, width:300px" }
+    attr_accessor :options, :html_options
 
-    attr_accessor :options, :placeholder, :html_options
-    alias  :canvas :placeholder
-    alias  :canvas= :placeholder=
-
-    def initialize(canvas = nil, html_opts = {})
-
-      @collection_filter = nil
+    def initialize(container = nil, html_opts = {})
       self.tap do |nokia_map|
-        nokia_map.options    ||= {}
+        nokia_map.options ||= {}
         nokia_map.defaults_options
         nokia_map.html_options = html_opts.merge(CANVAS_DEFAULT_HTML_OPTIONS)
-        nokia_map.canvas       = canvas if canvas
-        yield high_chart if block_given?
+        nokia_map.html_options.merge({:container=>container}) if container
+        yield nokia_map if block_given?
       end
     end
 
     def defaults_options
-      self.coords({ :latitude => 50, :longitude => 13 })
+      self.app_id = nil
+      self.authentication_token = nil
+      self.map({ :latitude => 50, :longitude => 0 })
     end
 
     # Pass other methods through to the javascript nokia_map object.
@@ -31,11 +28,12 @@ module LazyNokiaMaps
     end
 
 
-private
+    private
 
     def merge_options(name, opts)
+      opts = @options.has_key?(name) ? @options[name].merge(opts) : opts
       @options.merge!  name => opts
     end
 
-  end
-end
+  end # class
+end # module

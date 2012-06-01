@@ -1,98 +1,45 @@
-LazyNokiaMaps
+NokiaMaps
 =======
-LazyNokiaMaps is Rails 2.x/3.x Gem for displaying Nokia Maps. 
-=======
-### plugin support for rails 2.3.5 and rails 3
-  
-    script/plugin install git://github.com/michelson/lazy_high_charts.git ##(for rails 2)
-  
-    rails plugin install git://github.com/michelson/lazy_high_charts.git  ##(for rails 3)
+NokiaMaps is Rails 3.x Gem for generating the JS code required for displaying Nokia Maps.
 
 Usage
 =======
- About javascript Assets notes:
- for Rails 2.x/3.x
- 1.you need manually put jquery/highcharts js to public/javascript
- 2.modify your layout html
- Sample Code:
- <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"  %>
- <%= javascript_include_tag :high_charts  %>
- 3. add gem name in your config/environment.rb
-	config.gem "lazy_high_charts"
- 4.done!
+Setting up your rails 3 app to use Nokia Maps
 
- For Rails 3.x
- In your Gemfile, add this line:
-	gem 'lazy_high_charts'
+1. Gemfile
+  In your Gemfile, add this line:
+    gem 'nokia_maps'
 
- For Rails 3.1
-In your Gemfile, add this line:
-	gem 'lazy_high_charts', '~> 1.1.5'
-then execuate command:
-  Rails g lazy_high_charts:install
+1. Layout
+  Include Nokia maps JS in layout:
+  <%= javascript_include_tag "http://api.maps.nokia.com/2.2.0//jsl.js?with=all" %>
 
- Usage in Controller:
-  
-     @h = LazyHighCharts::HighChart.new('graph') do |f|
-        f.options[:chart][:defaultSeriesType] = "area"
-        f.series(:name=>'John', :data=>[3, 20, 3, 5, 4, 10, 12 ,3, 5,6,7,7,80,9,9])
-        f.series(:name=>'Jane', :data=> [1, 3, 4, 3, 3, 5, 4,-46,7,8,8,9,9,0,0,9] )
-      end
+1. Controller
+  In your controller, create a new Nokia map object and set up its variables
+  As a minimum you will need your developers appId and authentication_token
+  You will probably want to set your latitude and longitude variables at this
+  point to as shown in the example. If not the map will display a default
+  point on your map
+
+  To obtain your Nokia developer keys, you must register with Nokia here:
+  * https://www.developer.nokia.com/Profile/Join.xhtml
+  Once you have registered you will need to generate your keys here:
+  * http://api.developer.nokia.com/
+
+  {{{
+    @nm = NokiaMaps::NokiaMap.new do |map|
+      map.options[:app_id] = "your_developer_app_id"
+      map.options[:authentication_token] = "your_authentication_token"
+      map.options[:map] = {:latitude => 50, :longitude => 0}
+    end
+  }}}
  
+1. View
+  Call helper method to generate the JS and element to render the map to:
+  <%= nokia_map("new_element_id", @nm) %>
 
-  Without overriding entire option , (only change a specific option index):  
- 
-     @h = LazyHighCharts::HighChart.new('graph') do |f|
-      .....
-          f.options[:chart][:defaultSeriesType] = "area"
-          f.options[:chart][:inverted] = true
-          f.options[:legend][:layout] = "horizontal"
-          f.options[:xAxis][:categories] = ["uno" ,"dos" , "tres" , "cuatro"]
-     ......
-
-  Overriding entire option: 
-
-     @h = LazyHighCharts::HighChart.new('graph') do |f|
-       .....
-          f.xAxis(:categories => @days.reverse! , :labels=>{:rotation=>-45 , :align => 'right'})
-          f.chart({:defaultSeriesType=>"spline" , :renderTo => "myRenderArea" , :inverted => true})
-       .....
-
-
-  Usage in layout:
-      
-  <%= javascript_include_tag :high_charts %>
-      
-  Usage in view:
-  
-    <%= high_chart("my_id", @h) %>
-    
-  Passing formatting options in the view to the helper block , because all the helper options declared in the controller are converted in strict/valid json (quoted key);  so we need to extend the json object with some js.
-  
-      <%= high_chart("my_id", @h) do |c| %>
-         	<%= "options.tooltip.formatter = function() { return '<b>HEY!!!'+ this.series.name +'</b><br/>'+ this.x +': '+ this.y +' units';}" %>
-         	<%= "options.xAxis.labels.formatter = function() { return 'ho';}" %>
-         	<%= "options.yAxis.labels.formatter = function() { return 'hey';}" %>
-       <%end %> 
-
-   HighStock Support:
-
-     ##just call HighChart Helper this way:
-
-       <%= high_stock("my_id", @h) %>
-
-  Option reference:
-
-     http://www.highcharts.com/ref/
-
-  HighCharts License:
-  
-     http://www.highcharts.com/license
-
-    
 Contributors
 =======
-	LazyHighCharts gem is maintained by "Deshi Xiao":https://github.com/xiaods
-  Run @git shortlog -n -s --no-merges@  to see the awesome.
+	LazyNokiaMaps gem is maintained by Paul Cockrell, https://github.com/paulcockrell
 
-Copyright (c) 2010 Miguel Michelson Martinez, released under the MIT license
+Copyright (c) 2012 Paul Cockrell, released under the MIT license
