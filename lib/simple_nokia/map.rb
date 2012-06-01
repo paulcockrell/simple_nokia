@@ -1,15 +1,15 @@
-module NokiaMaps
-  class NokiaMap
+module SimpleNokia
+  class Map
     CANVAS_DEFAULT_HTML_OPTIONS = { :container => 'map', :style => "height: 300px, width:300px" }
     attr_accessor :options, :html_options
 
     def initialize(container = nil, html_opts = {})
-      self.tap do |nokia_map|
-        nokia_map.options ||= {}
-        nokia_map.defaults_options
-        nokia_map.html_options = html_opts.merge(CANVAS_DEFAULT_HTML_OPTIONS)
-        nokia_map.html_options.merge({:container=>container}) if container
-        yield nokia_map if block_given?
+      self.tap do |map|
+        map.options ||= {}
+        map.defaults_options
+        map.html_options = html_opts.merge(CANVAS_DEFAULT_HTML_OPTIONS)
+        map.html_options.merge({:container=>container}) if container
+        yield map if block_given?
       end
     end
 

@@ -1,7 +1,7 @@
 # coding: utf-8
-module NokiaMaps
+module SimpleNokia
   module LayoutHelper
-    
+
     def nokia_map(placeholder, object, &block)
       object.html_options.merge!({:id=>placeholder})
       object.options[:map][:renderTo] = placeholder

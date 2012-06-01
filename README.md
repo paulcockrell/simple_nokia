@@ -1,6 +1,8 @@
-NokiaMaps
+SimpleNokia
 =======
-NokiaMaps is Rails 3.x Gem for generating the JS code required for displaying Nokia Maps.
+SimpleNokia is Rails 3.x Gem for:
+ a. Generating the JS code required for displaying Nokia Maps.
+ a. Retrieving places of interestest near a given location via Nokia PLaces
 
 Usage
 =======
@@ -8,7 +10,7 @@ Setting up your rails 3 app to use Nokia Maps
 
 1. Gemfile
   In your Gemfile, add this line:
-    gem 'nokia_maps'
+    gem 'simple_nokia'
 
 1. Layout
   Include Nokia maps JS in layout:
@@ -27,10 +29,10 @@ Setting up your rails 3 app to use Nokia Maps
   * http://api.developer.nokia.com/
 
   {{{
-    @nm = NokiaMaps::NokiaMap.new do |map|
-      map.options[:app_id] = "your_developer_app_id"
-      map.options[:authentication_token] = "your_authentication_token"
-      map.options[:map] = {:latitude => 50, :longitude => 0}
+    @nm = SimpleNokia::Map.new do |my_map|
+      my_map.options[:app_id] = "your_developer_app_id"
+      my_map.options[:authentication_token] = "your_authentication_token"
+      my_map.options[:map] = {:latitude => 50, :longitude => 0}
     end
   }}}
  
@@ -40,6 +42,6 @@ Setting up your rails 3 app to use Nokia Maps
 
 Contributors
 =======
-	LazyNokiaMaps gem is maintained by Paul Cockrell, https://github.com/paulcockrell
+	SimpleNokia gem is maintained by Paul Cockrell, https://github.com/paulcockrell
 
 Copyright (c) 2012 Paul Cockrell, released under the MIT license
